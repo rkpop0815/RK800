@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RK800</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+    
+        nav {
+            background-color: #d79fed;
+            color: ba55d3;
+            padding: 1em 0;
+            text-align: center;
+        }
+    
+        nav a {
+            color: rgb(255, 255, 255);
+            font-weight: normal;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, font-weight 0.3s ease;
+            border-radius: 50px;
+            margin: 0 10px;
+        }
+    
+        nav a:hover {
+            background-color: #d79fed;
+            font-weight: bold;
+            border-radius: 0px;
+        }
+    
+        /* Main Content */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            justify-content: space-between;
+        }
+    
+        .content {
+            flex: 3;
+            padding-right: 20px;
+        }
+    
+        /* Category Box Styles */
+        .category {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+    
+        .category h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+    
+        .category ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+    
+        .category ul li {
+            margin: 10px 0;
+        }
+    
+        /* Category Links */
+        .category ul li a {
+            text-decoration: none;
+            color: #4e6177; /* 기본 링크 색 */
+            font-size: 16px;
+        }
+
+        /* 링크 클릭 시 텍스트 색 변경 */
+        .category ul li a:active,
+        .category ul li a:focus {
+            color: #41b7b1; 
+        }
+    
+        /* Content Area */
+        .content {
+            margin-right: 270px;
+            padding: 20px;
+        }
+    
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+    
+            .content {
+                margin-right: 0;
+            }
+        }
+    </style>
+    
+<body>
+<!-- 이하의 내용은 그대로 붙여 넣으세요. -->
+<script>
+    (function () {
+        //=================================================================================
+        // 우클릭, 드래그, 복사 차단
+        //=================================================================================
+        var events = ["contextmenu", "selectstart", "dragstart", "copy", "cut"];
+
+        events.forEach(function (event) {
+            window.addEventListener(event, blockEvent, true);
+        })
+
+        function blockEvent(e) { e.preventDefault(); }
+        //=================================================================================
+        // 개발자 메뉴 (F12) 차단
+        //=================================================================================
+        window.addEventListener('keydown', blockDeveloperMenu, true);
+
+        function blockDeveloperMenu(e) {
+            if (e.keyCode === 123) { // F12
+                blockEvent(e);
+            }
+            if (e.ctrlKey && e.shiftKey) {
+                var code = e.keyCode;
+                // 개발자 도구를 여는 Ctrl + Shift + 키 조합
+                if (code === 67 || code === 69 || code === 73 || code === 74 || code === 75 || code === 77 || code === 83) {
+                    blockEvent(e);
+                }
+            }
+        }
+
+        setInterval(function () { debugger; }, 200);
+        //=================================================================================
+        // 애드온 (pig toolbox 등) 차단
+        //=================================================================================
+        var event, received = false;
+
+        refreshEvent();
+
+        window.addEventListener("contextmenu", function (e) {
+            if (e === event) { received = true; }
+        }, true);
+
+        setInterval(function () {
+            received = false;
+            window.dispatchEvent(event);
+            received ? hideMessage() : showMessage();
+            refreshEvent();
+        }, 200);
+
+        function refreshEvent() {
+            if (event && !event.cancelBubble) { return; }
+            event = document.createEvent("MouseEvents");
+            event.initMouseEvent("contextmenu", true, true, window, 1, 50, 121, 50, 50, false, false, false, false, 2, null);
+        }
+        //=================================================================================
+        // 자바스크립트 비활성화 (Disable Javascript) 시 메세지 띄우기
+        //=================================================================================
+        var timer = null;
+        function showMessage() {
+            clearInterval(timer); timer = null;
+        }
+        function hideMessage() {
+            if (timer === null) { timer = setInterval(reveal, 450); }
+        }
+        function reveal() {
+            cl().toggle("cm-hide");
+            cl().toggle("cm-hide-2");
+        }
+        function cl() { return Copyright_Message.classList; }
+
+        window.addEventListener('visibilitychange', function() {
+            // 페이지가 숨겨질 시 animation을 정지함
+            if (document.visibilityState === "hidden") {
+                cl().remove("cm-hide", "cm-hide-2");
+                void Copyright_Message.offsetWidth;
+                showMessage();
+            } else {
+                cl().add("cm-hide");
+                cl().remove("cm-hide-2");
+                hideMessage();
+            }
+        }, true);
+
+        hideMessage();
+    })();
+</script>
+<!---------------------------------------------------------------
+    자바스크립트 비활성화 후 새로고침 시 메세지 띄우기
+---------------------------------------------------------------->
+<noscript>
+    <style>
+        #Copyright_Message>span { display: none; }
+        .cm-no-js { background: white; visibility: visible!important; }
+    </style>
+</noscript>
+<!---------------------------------------------------------------
+    드래그 차단
+---------------------------------------------------------------->
+<style>
+    *:not(input):not(textarea):not(code):not(blockquote):not(pre) {
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -webkit-touch-callout: none !important;
+    }
+</style>
+<!-- 저작권 메세지 CSS -->
+<style>
+    .cm-overlay {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        overflow-x: hidden;
+        z-index: 2147483647;
+    }
+
+    #Copyright_Message, .cm-no-js { visibility: hidden; }
+
+    #Copyright_Message.cm-hide {
+        animation: 1s cm-reveal 500ms forwards;
+    }
+    #Copyright_Message.cm-hide-2 {
+        animation: 1s cm-reveal-2 500ms forwards;
+    }
+
+    @keyframes cm-reveal {
+        from { opacity: 0; visibility: visible; }
+        to { opacity: 1; visibility: visible; }
+    }
+    @keyframes cm-reveal-2 {
+        from { opacity: 0; visibility: visible; }
+        to { opacity: 1; visibility: visible; }
+    }
+
+    @media print { noscript { display: none; } }
+</style>
+
+    <!---------------------------------------------------------------
+    저작권 안내 메세지, <span> 내의 글을 원하는 대로 수정하세요.
+---------------------------------------------------------------->
+<div>
+    <div class="cm-overlay cm-no-js"></div>
+    <div id="Copyright_Message" class="cm-overlay cm-hide">
+        <span>
+            복제를 금지하는 사이트에서 콘텐츠를 복사해 사용하려 하고 있습니다. <br>
+            이 콘텐츠를 블로그나 웹사이트의 콘텐츠로 사용하면 저작권 문제로 처벌 받을 수 있습니다.
+        </span>
+        <noscript class="cm-no-js">
+            <!-- 자바스크립트 비활성화 시에 보여지는 메세지 -->
+            <span>
+                이 페이지를 보기 위해서는 자바스크립트가 필요합니다. <br>
+                사이트 설정에서 자바스크립트를 사용하도록 설정해주세요.
+            </span>
+        </noscript>
+    </div>
+    <!---------------------------------------------------------------
+        아래 CSS를 수정하여 메세지의 스타일을 변경하세요.
+    ---------------------------------------------------------------->
+    <style>
+        #Copyright_Message span {
+            font-size: 15px;
+            font-family: sans-serif;
+            position: fixed;
+            width: 500px;
+            max-width: 90%;
+            top: 50%;
+            left: 50%;
+            margin-left: -250px;
+            margin-top: -100px;
+
+            border-radius: 10px;
+            box-shadow: 0px 0px 34px 2px rgba(242, 191, 191, 1);
+            padding: 10px 10px 10px 35px;
+
+            line-height: 1.5;
+            color: #555;
+
+            background: #ffecec url('https://tistory4.daumcdn.net/tistory/770263/skin/images/warning.png') no-repeat 10px 50%;
+            border: 1px solid #f5aca6;
+        }
+    </style>
+</div>
+    
+    <!-- Navigation -->
+    <nav>
+        <a href="https://rkpop0815.github.io/RK800/" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">HOME</a>
+        <a href="https://rkpop0815.github.io/RK800/novelposthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">NOV</a>
+        <a href="https://rkpop0815.github.io/RK800/arthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">PIC</a>
+        <a href="https://rkpop0815.github.io/RK800/dbhposthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">DBH play diary</a>
+        <a href="https://x.com/rk800_380815" target="_blank" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">SNS</a>
+    </nav>
+
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="content">
+            <!-- 게시글 내용 -->
+            <div class="category">
+                <h2>디트로이트 비컴 휴먼 6회차 플레이 후기</h2>
+                <h4>날짜: 2025.04.27 - 2025.05.01</h4>
+                <p>
+                    5회차 때 나가리된 멘탈 회복을 위해 6회차는 그냥 취향대로 했다.<br>
+                     못 뚫은 잔잔바리 루트도 겸사겸사 뚫었다.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_00.jpg" width="700"><br>
+                    이거 QTE 실수해서 임무 실패했음... 근데 왤케 당당하냐 니<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_01.jpg" width="700"><br>
+                    '사람'이 부르는 음악 1달러...<br>
+                    잡지에서 안드로이드 가수가 데뷔한다는 글을 본 거 같다.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_02_1.jpg" width="700"><br>
+                    <img src="images/6_02_2.jpg" width="700"><br>
+                    우리 마커스... 초반엔 이렇게 순둥순둥한 친구였거늘...<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_03.jpg" width="700"><br>
+                    토드집 청소한다고 TV앞 알짱거리면 한소리 듣고 접근 금지령이 내려진다..<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_04.jpg" width="700"><br>
+                    식사 시중 들 때 움직여도 혼남..ㅠ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_05.jpg" width="700"><br>
+                    이상한 나라의 앨리스 읽는 앨리스<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_06.jpg" width="700"><br>
+                    그 성격에 친구가 있었음...?<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_07.jpg" width="700"><br>
+                    멱살을 잡혀도 동요따위 하지 않는 코너.<br>
+                    LED 시퍼런 거 보소<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_08.jpg" width="700"><br>
+                    첫 만남부터 이미 즐라트코의 손을 티리움이 묻어있었다는 사실<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_09.jpg" width="700"><br>
+                    후후... 코너의 수사력을 인정하시죠 행크<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_10_1.jpg" width="700"><br>
+                    <img src="images/6_10_2.jpg" width="700"><br>
+                    이것도 내가 클릭하지 않았을 뿐, 코너 우클릭 분석 하고 있었겠지?<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_11_1.jpg" width="700"><br>
+                    <img src="images/6_11_2.jpg" width="700"><br>
+                    크리스 참 개방적이고 착한 친구다.<br>
+                    코너가 뭔 말 하면 다른 사람들은 안드로이드라고 무시하는데,<br>
+                    크리스는 잘 알려주고 대화함<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+
+                    <img src="images/6_12.jpg" width="700"><br>
+                    심볼은 역삼각형을 항상 선택하게 된다.<br>
+                    안드로이드가 입는 유니폼에 삼각형 로고가 늘 박혀있는데,<br>
+                    그게 뒤집어져 있다는게 나름 상징적으로 보이기 때문.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_13.jpg" width="700"><br>
+                    매번 여기 브금 나오는 순간 가슴이 웅장해진다. 뭔가 신성해...<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_14.jpg" width="700"><br>
+                    ㅠㅠ... 여기 행크랑 대화하는 선택지 대체로 다 마음에 들어...<br>
+                    친구 맞는듯.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_15_1.jpg" width="700"><br>
+                    <img src="images/6_15_2.jpg" width="700"><br>
+                    여기 돌아다닐 수 있나 싶어서 다시 플레이해봤는데 그냥 고정 스토리 진행이네.<br>
+                    마커스 너무 맴찢이다 진짜ㅠㅠ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_15_3.jpg" width="700"><br>
+                    ㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_16.jpg" width="700"><br>
+                    볼 때마다 뭔가 웃기다ㅋㅋㅋㅋ 쭈굴 코너ㅠㅠ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_17.jpg" width="700"><br>
+                    진짜 무슨 생각이 들었을까.<br>
+                    자기 스스로 불량품의 길로 뛰어든 것조차 아만다의 설계라니.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/6_18.jpg" width="700"><br>
+                    이거 매번 좀 아쉽다고 생각 드는게,<br>
+                    불량품이 되고 창고에서 나온 안드로이드들은 너무 기계처럼 서있어서ㅋㅋㅋㅋ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    아는 스토리, 좋아하는 스토리여서 편하게 플레이했다.<br>
+                    다음 플레이도 조만간 들어갈 예정.<br>
+                    기계 코너는 차마 아직 못 건들겠고...<br>
+                    혁명 마커스와 수용소 카라를 뚫지 않을까?<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                </p>
+                    
+                <!-- 이전 페이지 버튼 -->
+            <button class="back-btn" onclick="window.location.href='https://rkpop0815.github.io/RK800/dbhposthome.html'">이전 페이지</button>
+        </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; since 20250316</p>
+    </footer>
+
+</html>
