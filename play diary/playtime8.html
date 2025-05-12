@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RK800</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+    
+        nav {
+            background-color: #d79fed;
+            color: ba55d3;
+            padding: 1em 0;
+            text-align: center;
+        }
+    
+        nav a {
+            color: rgb(255, 255, 255);
+            font-weight: normal;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, font-weight 0.3s ease;
+            border-radius: 50px;
+            margin: 0 10px;
+        }
+    
+        nav a:hover {
+            background-color: #d79fed;
+            font-weight: bold;
+            border-radius: 0px;
+        }
+    
+        /* Main Content */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            justify-content: space-between;
+        }
+    
+        .content {
+            flex: 3;
+            padding-right: 20px;
+        }
+    
+        /* Category Box Styles */
+        .category {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+    
+        .category h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+    
+        .category ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+    
+        .category ul li {
+            margin: 10px 0;
+        }
+    
+        /* Category Links */
+        .category ul li a {
+            text-decoration: none;
+            color: #4e6177; /* 기본 링크 색 */
+            font-size: 16px;
+        }
+
+        /* 링크 클릭 시 텍스트 색 변경 */
+        .category ul li a:active,
+        .category ul li a:focus {
+            color: #41b7b1; 
+        }
+    
+        /* Content Area */
+        .content {
+            margin-right: 270px;
+            padding: 20px;
+        }
+    
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+    
+            .content {
+                margin-right: 0;
+            }
+        }
+    </style>
+    
+<body>
+<!-- 이하의 내용은 그대로 붙여 넣으세요. -->
+<script>
+    (function () {
+        //=================================================================================
+        // 우클릭, 드래그, 복사 차단
+        //=================================================================================
+        var events = ["contextmenu", "selectstart", "dragstart", "copy", "cut"];
+
+        events.forEach(function (event) {
+            window.addEventListener(event, blockEvent, true);
+        })
+
+        function blockEvent(e) { e.preventDefault(); }
+        //=================================================================================
+        // 개발자 메뉴 (F12) 차단
+        //=================================================================================
+        window.addEventListener('keydown', blockDeveloperMenu, true);
+
+        function blockDeveloperMenu(e) {
+            if (e.keyCode === 123) { // F12
+                blockEvent(e);
+            }
+            if (e.ctrlKey && e.shiftKey) {
+                var code = e.keyCode;
+                // 개발자 도구를 여는 Ctrl + Shift + 키 조합
+                if (code === 67 || code === 69 || code === 73 || code === 74 || code === 75 || code === 77 || code === 83) {
+                    blockEvent(e);
+                }
+            }
+        }
+
+        setInterval(function () { debugger; }, 200);
+        //=================================================================================
+        // 애드온 (pig toolbox 등) 차단
+        //=================================================================================
+        var event, received = false;
+
+        refreshEvent();
+
+        window.addEventListener("contextmenu", function (e) {
+            if (e === event) { received = true; }
+        }, true);
+
+        setInterval(function () {
+            received = false;
+            window.dispatchEvent(event);
+            received ? hideMessage() : showMessage();
+            refreshEvent();
+        }, 200);
+
+        function refreshEvent() {
+            if (event && !event.cancelBubble) { return; }
+            event = document.createEvent("MouseEvents");
+            event.initMouseEvent("contextmenu", true, true, window, 1, 50, 121, 50, 50, false, false, false, false, 2, null);
+        }
+        //=================================================================================
+        // 자바스크립트 비활성화 (Disable Javascript) 시 메세지 띄우기
+        //=================================================================================
+        var timer = null;
+        function showMessage() {
+            clearInterval(timer); timer = null;
+        }
+        function hideMessage() {
+            if (timer === null) { timer = setInterval(reveal, 450); }
+        }
+        function reveal() {
+            cl().toggle("cm-hide");
+            cl().toggle("cm-hide-2");
+        }
+        function cl() { return Copyright_Message.classList; }
+
+        window.addEventListener('visibilitychange', function() {
+            // 페이지가 숨겨질 시 animation을 정지함
+            if (document.visibilityState === "hidden") {
+                cl().remove("cm-hide", "cm-hide-2");
+                void Copyright_Message.offsetWidth;
+                showMessage();
+            } else {
+                cl().add("cm-hide");
+                cl().remove("cm-hide-2");
+                hideMessage();
+            }
+        }, true);
+
+        hideMessage();
+    })();
+</script>
+<!---------------------------------------------------------------
+    자바스크립트 비활성화 후 새로고침 시 메세지 띄우기
+---------------------------------------------------------------->
+<noscript>
+    <style>
+        #Copyright_Message>span { display: none; }
+        .cm-no-js { background: white; visibility: visible!important; }
+    </style>
+</noscript>
+<!---------------------------------------------------------------
+    드래그 차단
+---------------------------------------------------------------->
+<style>
+    *:not(input):not(textarea):not(code):not(blockquote):not(pre) {
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -webkit-touch-callout: none !important;
+    }
+</style>
+<!-- 저작권 메세지 CSS -->
+<style>
+    .cm-overlay {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        overflow-x: hidden;
+        z-index: 2147483647;
+    }
+
+    #Copyright_Message, .cm-no-js { visibility: hidden; }
+
+    #Copyright_Message.cm-hide {
+        animation: 1s cm-reveal 500ms forwards;
+    }
+    #Copyright_Message.cm-hide-2 {
+        animation: 1s cm-reveal-2 500ms forwards;
+    }
+
+    @keyframes cm-reveal {
+        from { opacity: 0; visibility: visible; }
+        to { opacity: 1; visibility: visible; }
+    }
+    @keyframes cm-reveal-2 {
+        from { opacity: 0; visibility: visible; }
+        to { opacity: 1; visibility: visible; }
+    }
+
+    @media print { noscript { display: none; } }
+</style>
+
+    <!---------------------------------------------------------------
+    저작권 안내 메세지, <span> 내의 글을 원하는 대로 수정하세요.
+---------------------------------------------------------------->
+<div>
+    <div class="cm-overlay cm-no-js"></div>
+    <div id="Copyright_Message" class="cm-overlay cm-hide">
+        <span>
+            복제를 금지하는 사이트에서 콘텐츠를 복사해 사용하려 하고 있습니다. <br>
+            이 콘텐츠를 블로그나 웹사이트의 콘텐츠로 사용하면 저작권 문제로 처벌 받을 수 있습니다.
+        </span>
+        <noscript class="cm-no-js">
+            <!-- 자바스크립트 비활성화 시에 보여지는 메세지 -->
+            <span>
+                이 페이지를 보기 위해서는 자바스크립트가 필요합니다. <br>
+                사이트 설정에서 자바스크립트를 사용하도록 설정해주세요.
+            </span>
+        </noscript>
+    </div>
+    <!---------------------------------------------------------------
+        아래 CSS를 수정하여 메세지의 스타일을 변경하세요.
+    ---------------------------------------------------------------->
+    <style>
+        #Copyright_Message span {
+            font-size: 15px;
+            font-family: sans-serif;
+            position: fixed;
+            width: 500px;
+            max-width: 90%;
+            top: 50%;
+            left: 50%;
+            margin-left: -250px;
+            margin-top: -100px;
+
+            border-radius: 10px;
+            box-shadow: 0px 0px 34px 2px rgba(242, 191, 191, 1);
+            padding: 10px 10px 10px 35px;
+
+            line-height: 1.5;
+            color: #555;
+
+            background: #ffecec url('https://tistory4.daumcdn.net/tistory/770263/skin/images/warning.png') no-repeat 10px 50%;
+            border: 1px solid #f5aca6;
+        }
+    </style>
+</div>
+    
+    <!-- Navigation -->
+    <nav>
+        <a href="https://rkpop0815.github.io/RK800/" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">HOME</a>
+        <a href="https://rkpop0815.github.io/RK800/novelposthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">NOV</a>
+        <a href="https://rkpop0815.github.io/RK800/arthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">PIC</a>
+        <a href="https://rkpop0815.github.io/RK800/dbhposthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">DBH play diary</a>
+        <a href="https://x.com/rk800_380815" target="_blank" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">SNS</a>
+    </nav>
+
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="content">
+            <!-- 게시글 내용 -->
+            <div class="category">
+                <h2>디트로이트 비컴 휴먼 8회차 플레이 후기</h2>
+                <h4>날짜: 2025.05.06 - 2025.05.11</h4>
+                <p>
+
+                    이제 기계 코너, 마커스 혁명, 카라 수용소 루트가 남아있는데<br>
+                    기계 코너는 맨 마지막에 할 것 같고<br>
+                    순서도 100% 찍는 게 아까워 혁명과 수용소 루트를 천천히 뚫고 있다.<br>
+                    단점은 계속 몰입하며 플레이하다 보니 캡처를 못함...<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_01.jpg" width="1000"><br>
+                    개인적인 생각은<br><br>
+
+                    장년층으로 갈수록 도움을 많이 받는 입장이라 안드로이드에게 고마움을 표현하는 경우가 많고<br>
+                    청년 중년은 실업 등에 영향을 많이 받아서 가장 적대적이고<br>
+                    어릴수록 익숙해져있어서 거부감이 없는 것 같다.<br><br>
+
+                    물론 예시가 많이 보이진 않았지만 그냥 그런 느낌이 있음.<br>
+                    위 할아버지나 칼.<br>
+                    제프리나 마커스가 초반에 만난 핫도그 장사꾼 등.<br>
+                    크리스나 안드로이드가 육아를 맡는 어린아이 등.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_02_01.jpg" width="1000"><br>
+                    내 컴 화질이 좋았으면 이거 읽을 수 있었으려나...<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_02_02.jpg" width="495"> <img src="images/8_02_03.jpg" width="495"><br>
+                    <img src="images/8_02_04.jpg" width="1000"><br>
+                    매번 토드집 청소 다 조지는 입장에서 저 설거지도 마저 할 수 있게 해주세요...<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_03.jpg" width="1000"><br>
+                    순서도 때문에 요 몇 회차 앨리스랑 계속 거리감 뒀는데 진짜 매번 미안했다. 이 표정 보고 어떻게 매몰차게 대해ㅠㅠ<br><br>
+
+                    순서도 100% 뚫는 입장에서야 고마운데, 앨리스는 거리감 루트라고 큰 변화가 없는게 조금 아쉽다.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_04.jpg" width="1000"><br>
+                    칼 할부지 마커스 보는 눈에서 꿀 떨어져유<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_05.jpg" width="1000"><br>
+                    칼 집 브금 = 로딩화면 브금이더라...<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_06.jpg" width="1000"><br>
+                    안드로이드고 나발이고 개빡친 느낌ㅋㅋㅋㅋ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_07.jpg" width="1000"><br>
+                    나도 행크 정식(?) 언젠가 먹어봐야지<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_08_01.jpg" width="1000"><br>
+                    에덴 클럽 입구에서 안드로이드 구경하고 있으면 행크가 꼽준다ㅠ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_08_02.jpg" width="1000"><br>
+                    이거 노스겠지?<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_09.jpg" width="1000"><br>
+                    아니 여기 주변 좀 보면서 들어가다가 잘못 눌렀나봐 돌진 루트 들어가서 다 죽음ㅠㅠ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_10.jpg" width="1000"><br>
+                    저 끝의 공사 안드로이드들은 매번 전환 전에 씬이 넘어가서...<br>
+                    최대한 그쪽으로 가서 전환 시키려고 애쓰는 편<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/8_11.jpg" width="1000"><br>
+                    사이버라이프 타운 코너 전투씬을 좋아하기 때문에 늘 CCTV를 일부러 끄지 않는다.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                </p>
+                    
+                <!-- 이전 페이지 버튼 -->
+            <button class="back-btn" onclick="window.location.href='https://rkpop0815.github.io/RK800/dbhposthome.html'">이전 페이지</button>
+        </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; since 20250316</p>
+    </footer>
+
+</html>
