@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RK800</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+    
+        nav {
+            background-color: #d79fed;
+            color: ba55d3;
+            padding: 1em 0;
+            text-align: center;
+        }
+    
+        nav a {
+            color: rgb(255, 255, 255);
+            font-weight: normal;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, font-weight 0.3s ease;
+            border-radius: 50px;
+            margin: 0 10px;
+        }
+    
+        nav a:hover {
+            background-color: #d79fed;
+            font-weight: bold;
+            border-radius: 0px;
+        }
+    
+        /* Main Content */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            justify-content: space-between;
+        }
+    
+        .content {
+            flex: 3;
+            padding-right: 20px;
+        }
+    
+        /* Category Box Styles */
+        .category {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+    
+        .category h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+    
+        .category ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+    
+        .category ul li {
+            margin: 10px 0;
+        }
+    
+        /* Category Links */
+        .category ul li a {
+            text-decoration: none;
+            color: #4e6177; /* 기본 링크 색 */
+            font-size: 16px;
+        }
+
+        /* 링크 클릭 시 텍스트 색 변경 */
+        .category ul li a:active,
+        .category ul li a:focus {
+            color: #41b7b1; 
+        }
+    
+        /* Content Area */
+        .content {
+            margin-right: 270px;
+            padding: 20px;
+        }
+    
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+    
+            .content {
+                margin-right: 0;
+            }
+        }
+    </style>
+    
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="https://rkpop0815.github.io/RK800/" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">HOME</a>
+        <a href="https://rkpop0815.github.io/RK800/novelposthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">NOV</a>
+        <a href="https://rkpop0815.github.io/RK800/arthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">PIC</a>
+        <a href="https://rkpop0815.github.io/RK800/dbhposthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">DBH play diary</a>
+        <a href="https://x.com/rkpop0815" target="_blank" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">SNS</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="content">
+            <!-- 게시글 내용 -->
+            <div class="category">
+                <h2>뵥뵥뵥</h2>
+                <h4>X(@ S_oo_S_o0 님) 트레틀 사용</h4>
+                <p>
+                    <img src="fanart/images/25.04.09.jpg" width="1000"><br>
+                </p>
+                    
+                <!-- 이전 페이지 버튼 -->
+            <button class="back-btn" onclick="window.location.href='#'">이전 페이지</button>
+        </div>
+
+     <!-- Footer -->
+    <footer>
+        <p>&copy; since 20250316</p>
+    </footer>
+
+</html>
