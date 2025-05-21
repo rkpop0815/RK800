@@ -15,7 +15,7 @@
 
 /* Navigation Styles */
 nav {
-    background-color: #91b4db;
+    background-color: #d79fed;
     color: #fff;
     padding: 1em 0;
     text-align: center;
@@ -90,72 +90,24 @@ nav a:hover {
     transform: scale(1.05);
 }
 
-/* Sidebar Styles */
-.sidebar {
-    width: 250px;
-    padding: 20px;
-    background-color: #91b4db;
-    position: fixed;
-    top: 0;
-    right: -250px;
-    height: 100%;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-    transition: right 0.3s ease;
-}
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding: 10px;
+    }
 
-.sidebar.show {
-    right: 0;
-}
+    .content {
+        margin-right: 0;
+    }
 
-.sidebar .widget {
-    margin-bottom: 30px;
+    .thumbnail {
+        width: 150px;
+        height: 150px; /* Mobile thumbnail size */
+    }
 }
-
-.sidebar .widget h3 {
-    font-size: 18px;
-    color: #fff;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #fff;
-    padding-bottom: 5px;
-}
-
-.sidebar .widget ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.sidebar .widget ul li {
-    margin: 10px 0;
-}
-
-.sidebar .widget ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    display: block;
-    padding: 5px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.sidebar .widget ul li a:hover {
-    background-color: #2b659e;
-}
-
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                padding: 10px;
-            }
-    
-            .content {
-                margin-right: 0;
-            }
-        }
     </style>
-    
+</head>
 <body>
 
     <!-- Navigation -->
@@ -174,73 +126,15 @@ nav a:hover {
             <!-- Thumbnail Container -->
             <div class="thumbnail-container">
                 <!-- 그림 썸네일 -->
-                <div class="thumbnail" onclick="window.location.href='#'">
-                    <div class="thumbnail-caption">1</div>
+                <div class="thumbnail" onclick="window.location.href='https://rkpop0815.github.io/RK800/fanart/25.04.09.html'">
+                    <div class="thumbnail-caption">뵥뵥뵥</div>
                 </div>
-
-                <div class="thumbnail" onclick="window.location.href='https:#'">
-                    <div class="thumbnail-caption">2</div>
-                </div>
-
-
             </div>
         </div>
-
-       <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="widget">
-                <h3>최근 게시물</h3>
-                <ul>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                </ul>
-            </div>
-
-            <div class="widget">
-                <h3>소설, 썰</h3>
-                <ul>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                </ul>
-            </div>
-
-            <div class="widget">
-                <h3>그림</h3>
-                <ul>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                </ul>
-            </div>
-
-            <div class="widget">
-                <h3>SNS</h3>
-                <ul>
-                    <li><a href="#">트위터</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; #</p>
+        <p>&copy; since 20250316</p>
     </footer>
 
-    <script>
-        const sidebar = document.querySelector('.sidebar');
-        
-        // 마우스가 sidebar 영역에 들어오면 show 클래스를 추가하여 보이도록 함
-        sidebar.addEventListener('mouseenter', () => {
-            sidebar.classList.add('show');
-        });
-
-        // 마우스가 sidebar 영역을 떠나면 show 클래스를 제거하여 숨김
-        sidebar.addEventListener('mouseleave', () => {
-            sidebar.classList.remove('show');
-        });
-    </script>
-
-</body>
 </html>
