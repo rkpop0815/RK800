@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RK800</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+    
+        nav {
+            background-color: #d79fed;
+            color: ba55d3;
+            padding: 1em 0;
+            text-align: center;
+        }
+    
+        nav a {
+            color: rgb(255, 255, 255);
+            font-weight: normal;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, font-weight 0.3s ease;
+            border-radius: 50px;
+            margin: 0 10px;
+        }
+    
+        nav a:hover {
+            background-color: #d79fed;
+            font-weight: bold;
+            border-radius: 0px;
+        }
+    
+        /* Main Content */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            justify-content: space-between;
+        }
+    
+        .content {
+            flex: 3;
+            padding-right: 20px;
+        }
+    
+        /* Category Box Styles */
+        .category {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+    
+        .category h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+    
+        .category ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+    
+        .category ul li {
+            margin: 10px 0;
+        }
+    
+        /* Category Links */
+        .category ul li a {
+            text-decoration: none;
+            color: #4e6177; /* 기본 링크 색 */
+            font-size: 16px;
+        }
+
+        /* 링크 클릭 시 텍스트 색 변경 */
+        .category ul li a:active,
+        .category ul li a:focus {
+            color: #41b7b1; 
+        }
+    
+        /* Content Area */
+        .content {
+            margin-right: 270px;
+            padding: 20px;
+        }
+    
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+    
+            .content {
+                margin-right: 0;
+            }
+        }
+    </style>
+    
+<body>
+<!-- 이하의 내용은 그대로 붙여 넣으세요. -->
+<script>
+    (function () {
+        //=================================================================================
+        // 우클릭, 드래그, 복사 차단
+        //=================================================================================
+        var events = ["contextmenu", "selectstart", "dragstart", "copy", "cut"];
+
+        events.forEach(function (event) {
+            window.addEventListener(event, blockEvent, true);
+        })
+
+        function blockEvent(e) { e.preventDefault(); }
+        //=================================================================================
+        // 개발자 메뉴 (F12) 차단
+        //=================================================================================
+        window.addEventListener('keydown', blockDeveloperMenu, true);
+
+        function blockDeveloperMenu(e) {
+            if (e.keyCode === 123) { // F12
+                blockEvent(e);
+            }
+            if (e.ctrlKey && e.shiftKey) {
+                var code = e.keyCode;
+                // 개발자 도구를 여는 Ctrl + Shift + 키 조합
+                if (code === 67 || code === 69 || code === 73 || code === 74 || code === 75 || code === 77 || code === 83) {
+                    blockEvent(e);
+                }
+            }
+        }
+
+        setInterval(function () { debugger; }, 200);
+        //=================================================================================
+        // 애드온 (pig toolbox 등) 차단
+        //=================================================================================
+        var event, received = false;
+
+        refreshEvent();
+
+        window.addEventListener("contextmenu", function (e) {
+            if (e === event) { received = true; }
+        }, true);
+
+        setInterval(function () {
+            received = false;
+            window.dispatchEvent(event);
+            received ? hideMessage() : showMessage();
+            refreshEvent();
+        }, 200);
+
+        function refreshEvent() {
+            if (event && !event.cancelBubble) { return; }
+            event = document.createEvent("MouseEvents");
+            event.initMouseEvent("contextmenu", true, true, window, 1, 50, 121, 50, 50, false, false, false, false, 2, null);
+        }
+        //=================================================================================
+        // 자바스크립트 비활성화 (Disable Javascript) 시 메세지 띄우기
+        //=================================================================================
+        var timer = null;
+        function showMessage() {
+            clearInterval(timer); timer = null;
+        }
+        function hideMessage() {
+            if (timer === null) { timer = setInterval(reveal, 450); }
+        }
+        function reveal() {
+            cl().toggle("cm-hide");
+            cl().toggle("cm-hide-2");
+        }
+        function cl() { return Copyright_Message.classList; }
+
+        window.addEventListener('visibilitychange', function() {
+            // 페이지가 숨겨질 시 animation을 정지함
+            if (document.visibilityState === "hidden") {
+                cl().remove("cm-hide", "cm-hide-2");
+                void Copyright_Message.offsetWidth;
+                showMessage();
+            } else {
+                cl().add("cm-hide");
+                cl().remove("cm-hide-2");
+                hideMessage();
+            }
+        }, true);
+
+        hideMessage();
+    })();
+</script>
+<!---------------------------------------------------------------
+    자바스크립트 비활성화 후 새로고침 시 메세지 띄우기
+---------------------------------------------------------------->
+<noscript>
+    <style>
+        #Copyright_Message>span { display: none; }
+        .cm-no-js { background: white; visibility: visible!important; }
+    </style>
+</noscript>
+<!---------------------------------------------------------------
+    드래그 차단
+---------------------------------------------------------------->
+<style>
+    *:not(input):not(textarea):not(code):not(blockquote):not(pre) {
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -webkit-touch-callout: none !important;
+    }
+</style>
+<!-- 저작권 메세지 CSS -->
+<style>
+    .cm-overlay {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        overflow-x: hidden;
+        z-index: 2147483647;
+    }
+
+    #Copyright_Message, .cm-no-js { visibility: hidden; }
+
+    #Copyright_Message.cm-hide {
+        animation: 1s cm-reveal 500ms forwards;
+    }
+    #Copyright_Message.cm-hide-2 {
+        animation: 1s cm-reveal-2 500ms forwards;
+    }
+
+    @keyframes cm-reveal {
+        from { opacity: 0; visibility: visible; }
+        to { opacity: 1; visibility: visible; }
+    }
+    @keyframes cm-reveal-2 {
+        from { opacity: 0; visibility: visible; }
+        to { opacity: 1; visibility: visible; }
+    }
+
+    @media print { noscript { display: none; } }
+</style>
+
+    <!---------------------------------------------------------------
+    저작권 안내 메세지, <span> 내의 글을 원하는 대로 수정하세요.
+---------------------------------------------------------------->
+<div>
+    <div class="cm-overlay cm-no-js"></div>
+    <div id="Copyright_Message" class="cm-overlay cm-hide">
+        <span>
+            복제를 금지하는 사이트에서 콘텐츠를 복사해 사용하려 하고 있습니다. <br>
+            이 콘텐츠를 블로그나 웹사이트의 콘텐츠로 사용하면 저작권 문제로 처벌 받을 수 있습니다.
+        </span>
+        <noscript class="cm-no-js">
+            <!-- 자바스크립트 비활성화 시에 보여지는 메세지 -->
+            <span>
+                이 페이지를 보기 위해서는 자바스크립트가 필요합니다. <br>
+                사이트 설정에서 자바스크립트를 사용하도록 설정해주세요.
+            </span>
+        </noscript>
+    </div>
+    <!---------------------------------------------------------------
+        아래 CSS를 수정하여 메세지의 스타일을 변경하세요.
+    ---------------------------------------------------------------->
+    <style>
+        #Copyright_Message span {
+            font-size: 15px;
+            font-family: sans-serif;
+            position: fixed;
+            width: 500px;
+            max-width: 90%;
+            top: 50%;
+            left: 50%;
+            margin-left: -250px;
+            margin-top: -100px;
+
+            border-radius: 10px;
+            box-shadow: 0px 0px 34px 2px rgba(242, 191, 191, 1);
+            padding: 10px 10px 10px 35px;
+
+            line-height: 1.5;
+            color: #555;
+
+            background: #ffecec url('https://tistory4.daumcdn.net/tistory/770263/skin/images/warning.png') no-repeat 10px 50%;
+            border: 1px solid #f5aca6;
+        }
+    </style>
+</div>
+    
+    <!-- Navigation -->
+    <nav>
+        <a href="https://rkpop0815.github.io/RK800/" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">HOME</a>
+        <a href="https://rkpop0815.github.io/RK800/novelposthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">NOV</a>
+        <a href="https://rkpop0815.github.io/RK800/arthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">PIC</a>
+        <a href="https://rkpop0815.github.io/RK800/dbhposthome.html" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">DBH play diary</a>
+        <a href="https://x.com/rk800_380815" target="_blank" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: normal;" onmouseover="this.style.fontWeight='bold';" onmouseout="this.style.fontWeight='normal';">SNS</a>
+    </nav>
+
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="content">
+            <!-- 게시글 내용 -->
+            <div class="category">
+                <h2>디트로이트 비컴 휴먼 10회차 플레이 후기</h2>
+                <h4>날짜: 2025.05.21 - 2025.05.24</h4>
+                <p>
+
+                    더 이상 미룰 수 없다. 마커스 혁명 실패 루트를 시작했다.<br>
+                    그리고 천천히 플레이하며 깨달았는데, 코너 선택지에서 대기하는 모습들이 의외로 잘생긴 씬이 많음.. 움짤 찌는 맛 난다.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_01.jpg" width="1000"><br>
+                    앨런 경감과 대화를 하지 않으면 조사도 시작 못 하는구나.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_02_1.jpg" width="495"> <img src="images/10_02_2.jpg" width="495"><br>
+                    이 사람 앞에서 알짱대면 꼽준다...<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_03.jpg" width="1000"><br>
+                    구매한 안드로이드 출입불가... 안드로이드는 무조건 사람이 사러 오라는 거겠지?<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_04.jpg" width="1000"><br>
+                    설거지를 하지 않으면 토드는 의외로(!) 얌전히 술만 마신다. 설거지를 시작하면서 다음 이벤트(맥주 가져와!)가 시작되는 듯<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_05_1.jpg" width="495"> <img src="images/10_05_2.jpg" width="495">
+                    <img src="images/10_05_3.jpg" width="495"> <img src="images/10_05_4.jpg" width="495">
+                    설거지 맨 마지막으로 미루고 틈틈이 쳐다보면 의외로 여기저기 잘 돌아댕기는 앨리스<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_06.jpg" width="1000"><br>
+                    이거 궁금해서 자세히 봤는데, 안드로이드 출입하면 오너(인간 주인) 고소하겠다는 뜻인듯.<br>
+                    코너가 들어간 거면 사이버라이프를 고소하나요...?<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_08.jpg" width="1000"><br>
+                    생각해보니 행크 이거 음주운전 아녀,,,,,,,<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_09_1.jpg" width="495"> <img src="images/10_09_2.jpg" width="495"><br>
+                    대답만 잘 하고 지킬 생각은 없는 코너 2종 세트<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_10_1.jpg" width="495"> <img src="images/10_10_2.jpg" width="495"><br>
+                    이때부터 행크 호감도가 제법 올랐을 거라 생각해.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_11.jpg" width="1000"><br>
+                    냅킨 상호작용 안 해도 진행 가능<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_12.jpg" width="1000"><br>
+                    이거 넘 웃기네 안드로이드가 스스로 판단한 우선순위 과제가 '인간과 화해하기' ㅋㅋㅋ큐ㅠㅠㅠ<br>
+                    심지어 지가 잘못하긴 했어.... 눈치도 볼 줄 아는구나.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_13.jpg" width="1000"><br>
+                    저두용...<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_14.jpg" width="1000"><br>
+                    루시가 흥얼거리는 이 노래가 추후 마커스 시위 루트에서 노래부르는 그 멜로디구나..!!!!!!<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_15_1.jpg" width="495"> <img src="images/10_15_2.jpg" width="495"><br>
+                    생각해보니 존 아군으로 삼고 차량 없이 돌아가는 루트는 처음 해본다. 무사히 도망가는구나.<br>
+                    시간 단축상 그냥 이렇게 진행해도 될듯.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_16.jpg" width="1000"><br>
+                    결제할 때 행크 "흠? 흠." 이런다ㅋㅋㅋㅋ 아재요...<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_17.jpg" width="1000"><br>
+                    ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_18_1.jpg" width="495"> <img src="images/10_18_2.jpg" width="495"><br>
+                    앨리스 T인듯<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_19_1.jpg" width="495"> <img src="images/10_19_2.jpg" width="495"><br>
+                    이거 볼 때마다 짠함... 막연한 행복... 루터가 진짜 군데군데에서 많이 죽어서... 최종장에서 살기도 어려운 캐릭터란 말이야ㅠㅠㅠ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_20_1.jpg" width="1000"><br>
+                    개인적으로 카라 머리칼은 금발>흑발>백발 순으로 취향이다. 그래서 백발 안 한 지 오래되긴 함.. 11회차는 백발로 해봐야지.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_20_2.GIF" width="495"><br>
+                    앨리스 보려고 콩콩 거리는 제리들이 귀엽다..<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_21.jpg" width="1000"><br>
+                    그.. 너무 코앞에서 사기치는데 모르시는거 아임까<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_22.jpg" width="1000"><br>
+                    이거 각도 돌리면 캄스키 사진이 밖에서 보인다. 귀신 같음....ㅋㅋㅋㅋㅋㅋ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_23.jpg" width="1000"><br>
+                    이 안드로이드 모델 너무 눈이 초롱초롱해서 귀여움ㅋㅋㅋㅋㅋ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_24_1.jpg" width="495"> <img src="images/10_24_2.jpg" width="495"><br>
+                    고민하다가 마커스 폭동 루트 오랜만에 함 타봤다. 그런데 중앙공원 폭력시위 때도 그렇고, 끝나고 나면 마커스 표정이 혼란스럽고 또 생각도 많아지는 표정이라...<br>
+                    최종 챕터 전까진 평화시위가 맞아 너는ㅠㅠㅠㅠ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_25_1.jpg" width="495"> <img src="images/10_25_2.jpg" width="495"><br>
+                    아오 나 행크 우호적 부터 도와주는 줄 알았어. 친구 단계만 도와주나봐... 어쩐지 루트 해제 알림이 빨갛게 뜨더라ㅠㅠㅠㅠ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_26.jpg" width="1000"><br>
+                    방법이 없는 건 아니기에 문제 없이 플레이 했는데, 얜 도대체 왜 내딥다 퍼킨스 얼굴을 후려갈기고 다시 잡힌 건지 매번 이해는 안 됨...ㅋㅋㅋㅋ<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_27.jpg" width="1000"><br>
+                    ㅠㅠ.....<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_28_1.jpg" width="495"> <img src="images/10_28_2.jpg" width="495"><br>
+                    랄프 되게 불안정해서 불안했음. 근처에만 가도 중얼중얼 거리는 게 들림...<br>
+                    그런데 추후 철조망 이벤트에서 도움을 준다..! 안드로이드들이 앨리스를 지키려는 마음은 다 똑같다는게 조금 신기함.<br>
+                    랄프는 죽었을까 살았을까... <br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_29.jpg" width="1000"><br>
+                    하 그런데 죽었어....ㅠㅜㅜㅜㅠㅜㅠㅜㅠㅜㅠㅜㅠ<br>
+                    철조망에서 도망간다/앨리스 보호 선택이었는데 보호하다 죽을까봐 빨리 도망가려고 한 건데....<br>
+                    다음엔 앨리스 보호 해봐야지... 그런데 이거 왠지 루터 없으면 무조건 죽을 거 같기도 해........<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_30_1.jpg" width="495"> <img src="images/10_30_2.jpg" width="495"><br>
+                    드론을 쏘지 않으면 노스가 대화도 못 나누고 죽는다.... 그런데 역시 조쉬 눕혀줄 떄랑 대우가 너무 다르지 않니.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <img src="images/10_31.jpg" width="1000"><br>
+                    수천대의 안드로이드를 데리고 왔으나 아무도 없어서 얼렁뚱땅 지도자가 된 코너...ㅎㅋㅋㅋㅋ<br>
+                    고민하다가 아만다의 지배를 받는 배드 엔딩을 결국 탔다.<br>
+                    대단한 설명이 나오진 않았지만 코너 소프트웨어가 안정되고 아만다가 만족스러워한 걸 보니<br>
+                    결국 안드로이드의 혁명은 실패하고 전부 사이버라이프 손에 들어가는 엔딩이 된 듯.<br><br><br>
+                    <br>
+                    <br>
+                    <br>
+                </p>
+                    
+                <!-- 이전 페이지 버튼 -->
+            <button class="back-btn" onclick="window.location.href='https://rkpop0815.github.io/RK800/dbhposthome.html'">이전 페이지</button>
+        </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; since 20250316</p>
+    </footer>
+
+</html>
